@@ -1,2 +1,7 @@
+# Bundles
 dist
 node_modules
+
+# Secrets
+.vscode
+.env
