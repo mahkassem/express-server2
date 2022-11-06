@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { getFileByName } from "../controllers/file.controller"
+import { authGuard } from "../utils/middlewares/auth.middleware"
 import { validateGetFileByName } from "../validators/file.validator"
 
 const fileRouter: Router = Router()
@@ -11,6 +12,7 @@ const fileRouter: Router = Router()
  */
 fileRouter.get(
     "/:file_name",              // ? uri
+    authGuard,                  // ! middleware
     validateGetFileByName,      // ! middleware
     getFileByName               // * controller
 )

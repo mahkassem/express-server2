@@ -1,4 +1,4 @@
-import express, { Application } from "express"
+import express, { Application, json } from "express"
 import helmet from "helmet"
 import cors from "cors"
 import morgan from "morgan"
@@ -10,8 +10,9 @@ const port = 3000
 // Middlewares
 app.use(
     cors(),
+    json(),
     helmet(),
-    morgan("dev"),
+    morgan("dev")
 )
 
 // Application router
