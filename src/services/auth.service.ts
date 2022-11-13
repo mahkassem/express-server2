@@ -6,15 +6,22 @@ import jwt from "jsonwebtoken";
 const _usersEntity = new UsersEntity();
 
 class AuthService {
-    async register(user: User): Promise<User> {
-        user.password = bcrypt.hashSync(
+    async getById(id: number): Promise<User> {
+        const user = await _usersEntity.getById(id);
+        // delete password from response
+        delete user.password;
+        return user;
+    }
+
+    async register(user: User, isTest = false): Promise<User> {
+        const hashedPassword = bcrypt.hashSync(
             user.password + env("BCRYPT_SECRET"),
             parseInt(env("BCRYPT_SALT"))
         );
 
-        const createdUser = await _usersEntity.create(user);
+        const createdUser = await _usersEntity.create({ ...user, password: hashedPassword });
         // delete password from response
-        delete createdUser.password;
+        if (!isTest) delete createdUser.password;
 
         return createdUser;
     }

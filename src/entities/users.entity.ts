@@ -9,6 +9,14 @@ export interface User {
 }
 
 class UsersEntity {
+    async getById(id: number): Promise<User> {
+        const { rows } = await db.query(
+            "SELECT * FROM users WHERE id = $1",
+            [id]
+        )
+        return rows[0]
+    }
+
     async getByUsername(username: string): Promise<User> {
         const { rows } = await db.query(
             "SELECT * FROM users WHERE username = $1",
@@ -23,6 +31,10 @@ class UsersEntity {
             [user.name, user.username, user.password]
         )
         return rows[0]
+    }
+
+    async delete(id: number): Promise<void> {
+        await db.query("DELETE FROM users WHERE id = $1", [id])
     }
 }
 

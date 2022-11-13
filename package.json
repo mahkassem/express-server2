@@ -13,7 +13,7 @@
         "db:down": "npx db-migrate reset",
         "build": "npx tsc",
         "pretest": "npm run lint:fix && npm run build",
-        "test": "jasmine"
+        "test": "set ENV=test&& npx db-migrate --env test up && jasmine && npx db-migrate --env test reset"
     },
     "keywords": [
         "nodejs",
@@ -29,6 +29,7 @@
         "@types/jsonwebtoken": "^8.5.9",
         "@types/morgan": "^1.9.3",
         "@types/pg": "^8.6.5",
+        "@types/supertest": "^2.0.12",
         "@typescript-eslint/eslint-plugin": "^5.40.1",
         "@typescript-eslint/parser": "^5.40.1",
         "eslint": "^8.25.0",
@@ -41,6 +42,7 @@
         "jasmine-spec-reporter": "^7.0.0",
         "nodemon": "^2.0.20",
         "prettier": "2.7.1",
+        "supertest": "^6.3.1",
         "ts-node": "^10.9.1",
         "typescript": "^4.8.4"
     },
