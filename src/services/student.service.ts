@@ -7,6 +7,12 @@ class StudentService {
         return createdStudent
     }
 
+    async getList(options: { page: number, perPage: number }): Promise<Student[]> {
+        const _studentsEntity = new StudentsEntity()
+        const students = await _studentsEntity.getList(options)
+        return students
+    }
+
     async getById(id: number): Promise<Student> {
         const _studentsEntity = new StudentsEntity()
         const student = await _studentsEntity.getById(id)

@@ -7,6 +7,12 @@ import { Student } from "../entities/students.entity"
 const _authService = new AuthService()
 const _studentService = new StudentService()
 
+const getListHandler = async (req: Request, res: Response) => {
+    const { page, perPage } = req.query as { page: string, perPage: string }
+    const students = await _studentService.getList({ page: parseInt(page), perPage: parseInt(perPage) })
+    res.json(students)
+}
+
 const createHandler = async (req: Request, res: Response) => {
     try {
         // get user and student from request body
@@ -37,4 +43,4 @@ const getByIdHandler = async (req: Request, res: Response) => {
     }
 }
 
-export { createHandler, getByIdHandler }
+export { createHandler, getByIdHandler, getListHandler }

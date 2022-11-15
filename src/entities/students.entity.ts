@@ -19,6 +19,12 @@ class StudentsEntity {
         return rows[0]
     }
 
+    async getList(options: { page: number, perPage: number }): Promise<Student[]> {
+        const offset = (options.page - 1) * options.perPage
+        const { rows } = await db.query(`SELECT * FROM students LIMIT ${options.perPage} OFFSET ${offset}`)
+        return rows
+    }
+
     async getByIdWithUser(id: number): Promise<Student> {
         const { rows } = await db.query(
             "SELECT s.*, u.name as name, u.username as username FROM students AS s INNER JOIN users as u ON s.user_id = u.id WHERE s.id = $1",
