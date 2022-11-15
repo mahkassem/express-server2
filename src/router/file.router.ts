@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getFileByName } from "../controllers/file.controller"
+import { getFileByName, uploadFile } from "../controllers/file.controller"
 import { authGuard } from "../utils/middlewares/auth.middleware"
 import { validateGetFileByName } from "../validators/file.validator"
 
@@ -15,6 +15,12 @@ fileRouter.get(
     authGuard,                  // ! middleware
     validateGetFileByName,      // ! middleware
     getFileByName               // * controller
+)
+
+fileRouter.post(
+    "/upload",                  // ? uri
+    authGuard,                  // ! middleware
+    uploadFile                  // * controller
 )
 
 export default fileRouter
