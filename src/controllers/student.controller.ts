@@ -3,14 +3,17 @@ import AuthService from "../services/auth.service"
 import StudentService from "../services/student.service"
 import { User } from "../entities/users.entity"
 import { Student } from "../entities/students.entity"
+import { PaginatedQuery } from "../utils/data/query.data"
+import { sendMail } from "../services/mail.service"
 
 const _authService = new AuthService()
 const _studentService = new StudentService()
 
 const getListHandler = async (req: Request, res: Response) => {
-    const { page, perPage } = req.query as { page: string, perPage: string }
-    const students = await _studentService.getList({ page: parseInt(page), perPage: parseInt(perPage) })
+    const options = req.query as unknown as PaginatedQuery
+    const students = await _studentService.getList(options)
     res.json(students)
+    return
 }
 
 const createHandler = async (req: Request, res: Response) => {
@@ -23,11 +26,18 @@ const createHandler = async (req: Request, res: Response) => {
         // use student service to create student
         const createdStudent = await _studentService.create(student)
         createdStudent.user = createdUser
+        // send email to user
+        sendMail({
+            to: `${createdUser.name} <${createdUser.username}>`,
+            subject: "Welcome to Student Management System",
+            text: `Hi ${createdUser.name}, welcome to Student Management System.`
+        });
         // return user
         res.status(201).send(createdStudent)
-    } catch (error) {
-        res.status(500).send("Internal server error")
+    } catch (error: any) {
+        res.status(500).send(error.message ?? "Internal server error")
     }
+    return
 }
 
 const getByIdHandler = async (req: Request, res: Response) => {
@@ -41,6 +51,7 @@ const getByIdHandler = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).send("Internal server error")
     }
+    return
 }
 
 export { createHandler, getByIdHandler, getListHandler }

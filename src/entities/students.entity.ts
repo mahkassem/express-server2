@@ -1,4 +1,5 @@
 import db from "../providers/database.provider"
+import { PaginatedQuery } from "../utils/data/query.data"
 import { User } from "./users.entity"
 
 export interface Student {
@@ -19,7 +20,7 @@ class StudentsEntity {
         return rows[0]
     }
 
-    async getList(options: { page: number, perPage: number }): Promise<Student[]> {
+    async getList(options: PaginatedQuery): Promise<Student[]> {
         const offset = (options.page - 1) * options.perPage
         const { rows } = await db.query(`SELECT * FROM students LIMIT ${options.perPage} OFFSET ${offset}`)
         return rows

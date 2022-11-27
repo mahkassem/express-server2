@@ -1,4 +1,5 @@
 import StudentsEntity, { Student } from "../entities/students.entity"
+import { PaginatedQuery } from "../utils/data/query.data"
 
 class StudentService {
     async create(student: Student): Promise<Student> {
@@ -7,7 +8,7 @@ class StudentService {
         return createdStudent
     }
 
-    async getList(options: { page: number, perPage: number }): Promise<Student[]> {
+    async getList(options: PaginatedQuery): Promise<Student[]> {
         const _studentsEntity = new StudentsEntity()
         const students = await _studentsEntity.getList(options)
         return students

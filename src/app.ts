@@ -4,9 +4,10 @@ import cors from "cors"
 import morgan from "morgan"
 import router from "./router"
 import fileUpload from "express-fileupload"
+import env from "./utils/helpers/env.helper"
 
 const app: Application = express()
-const port = 3000
+const port = env("PORT") || 8080
 
 // Middlewares
 app.use(
@@ -28,6 +29,11 @@ app.use(fileUpload({
 
 // Application router
 app.use("/api", router)
+app.get("/", (req, res) => {
+    res.send({
+        message: "healthy: Ok!"
+    })
+})
 
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)

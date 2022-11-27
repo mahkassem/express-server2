@@ -11,7 +11,9 @@
         "prettier": "npx prettier --write src/**/*.{ts,json}",
         "db:up": "npx db-migrate up",
         "db:down": "npx db-migrate reset",
+        "prebuild": "rm -rf dist archive.zip",
         "build": "npx tsc",
+        "postbuild": "cp package.json dist/package.json && cd dist && zip -r ../archive.zip ./* && cd ..",
         "pretest": "npm run lint:fix && npm run build",
         "test": "set ENV=test&& npx db-migrate --env test up && jasmine && npx db-migrate --env test reset"
     },

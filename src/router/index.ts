@@ -11,7 +11,6 @@ router.use("/auth", authRouter)
 router.use("/files", fileRouter)
 router.use("/user", userRouter)
 router.use("/student", studentRouter)
-
 router.get("/send-mail", (req, res) => {
     try {
         const transport = nodemailer.createTransport({
